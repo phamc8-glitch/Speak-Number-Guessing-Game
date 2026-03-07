@@ -1,3 +1,13 @@
+  // Modification: Time
+const clock = document.querySelector('.container')
+
+function getCurrentTime(){
+  const date = new Date()
+  return date.toLocaleTimeString()
+}
+
+clock.innerHTML = getCurrentTime()
+
 const msgEl = document.getElementById('msg');
 
 // Generate random number
@@ -18,9 +28,9 @@ recognition.start();
 
 // Capture user speak
 function onSpeak(event) {
-  console. log(event); //delete this one
   const msg = event.results[0][0].transcript;  // You can log the event to view the structure of the data
-  console.log(msg);
+  writeMessage(msg);
+  checkNumber(msg);
 }
 
 // Speak result
@@ -40,11 +50,32 @@ function writeMessage(msg) {
   msgEl.append(div, span);
 }
 
-// -- JavaScript, Part 3: Implement the checkNumber Function
+// fixing time
 
 // Check msg against the secret number
 function checkNumber(msg) {
   const num = Number(msg);
+
+// Update the value of num if it's a single-digit number
+   if (msg === 'one' || msg === 'won') {
+    num = 1;
+  } else if (msg === 'two') {
+    num = 2;
+  } else if (msg === 'three') {
+    num = 3;
+  } else if (msg === 'four') {
+    num = 4;
+  } else if (msg === 'five') {
+    num = 5;
+  } else if (msg === 'six') {
+    num = 6;
+  } else if (msg === 'seven') {
+    num = 7;
+  } else if (msg === 'eight') {
+    num = 8;
+  } else if (msg === 'nine') {
+    num = 9;
+  }
 
   // Check if the spoken content is a valid number
   if (Number.isNaN(num)) {
@@ -87,71 +118,8 @@ function checkNumber(msg) {
     div.textContent = 'GO HIGHER';
     msgEl.append(div);
   }
-}
-
-// Check msg against the secret number
-function checkNumber(msg) {
-  let num = Number(msg);  // 👈 This is now a let instead of const since I reassign the value below
-}
-
-  // Update the value of num if it's a single-digit number
-  if (msg === 'one' || msg === 'won') {
-    num = 1;
-  } else if (msg === 'two') {
-    num = 2;
-  } else if (msg === 'three') {
-    num = 3;
-  } else if (msg === 'four') {
-    num = 4;
-  } else if (msg === 'five') {
-    num = 5;
-  } else if (msg === 'six') {
-    num = 6;
-  } else if (msg === 'seven') {
-    num = 7;
-  } else if (msg === 'eight') {
-    num = 8;
-  } else if (msg === 'nine') {
-    num = 9;
-  }
-
-  // The above could (should?) be refactored to a switch case
-
-  // Check if the spoken content is a valid number
-  if (Number.isNaN(num)) {
-    const div = document.createElement('div');
-    div.textContent = 'That is not a valid number';
-    msgEl.innerHTML = '';
-    msgEl.append(div);
-    return;
-  }
-
-  // ... remaining code below this point is the same as in the video
+}  
+// At the end, start it again
+recognition.add('end',() => recognition.start());
 
 
-    const wordToNumber = {
-    one: 1,
-    won: 1,
-    two: 2,
-    to: 2,
-    too: 2,
-    three: 3,
-    four: 4,
-    for: 4,
-    five: 5,
-    six: 6,
-    seven: 7,
-    eight: 8,
-    ate: 8,
-    nine: 9,
-    ten: 10,
-  };
-
-  if (wordToNumber[msg]) {
-    console.log(`adjusting ${msg} to ${wordToNumber[msg]}`);
-    msg = wordToNumber[msg];
-  } // Convert to number after adjustments
-
-  const num = Number(msg);
-  // Check if the spoken content is a valid number
-  // ... remaining code below this line is unchanged
